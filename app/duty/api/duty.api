@@ -1,0 +1,24 @@
+type (
+	DutyReq {
+		Id string `path:"id"`
+	}
+
+	DutyReply {
+		Id   string `json:"id"`
+		Name string `json:"name"`
+	}
+)
+
+@server(
+	jwt: Auth
+	middleware: Example
+)
+service duty-api {
+	@handler getDuty
+	get /api/duties/:id (DutyReq) returns (DutyReply)
+}
+
+service duty-api{
+	@handler ping
+	get /ping
+}

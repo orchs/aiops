@@ -1,0 +1,12 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8889
+Mysql:
+  DataSource: monitor:Kubectl12#$@tcp(mysql:3306)/aiops?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+  - Host: redis:6379
+    Pass: Kubectl12#$
+    Type: node
+Auth:
+  AccessSecret: aiopsSecret
+  AccessExpire: 3600
