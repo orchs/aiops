@@ -96,8 +96,8 @@ services:
 
   #消费kafka中filebeat收集的数据输出到es - The data output collected by FileBeat in Kafka is output to ES
   go-stash:
-#    image: kevinwan/go-stash:1.0 # if you "macOs intel" or "linux amd"
-    image: kevinwan/go-stash:1.0-arm64 #  if you "macOs m1" or "linux arm"
+    image: kevinwan/go-stash:1.0 # if you "macOs intel" or "linux amd"
+#    image: kevinwan/go-stash:1.0-arm64 #  if you "macOs m1" or "linux arm"
     container_name: go-stash
     environment:
       # 时区上海 - Time zone Shanghai (Change if needed)
@@ -188,15 +188,17 @@ services:
       # 时区上海 - Time zone Shanghai (Change if needed)
       TZ: Asia/Shanghai
       # root 密码 - root password
-      MYSQL_ROOT_PASSWORD: PXDN93VRKUm8TeE7
+      MYSQL_ROOT_PASSWORD: mysql
     ports:
-      - 33069:3306
+      - 13306:3306
     volumes:
       # 数据挂载 - Data mounting
       - ./data/mysql/data:/var/lib/mysql
+      - ./data/mysql/conf/my.cnf:/etc/my.cnf
+      - ./data/mysql/logs/:/logs
       # 日志
     command:
-      # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配) 
+      # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配)
       # Modify the Mysql 8.0 default password strategy to the original strategy (MySQL8.0 to change its default strategy will cause the password to be unable to match)
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8mb4
@@ -213,7 +215,7 @@ services:
     image: redis:6.2.5
     container_name: redis
     ports:
-      - 36379:6379
+      - 16379:6379
     environment:
       # 时区上海 - Time zone Shanghai (Change if needed)
       TZ: Asia/Shanghai

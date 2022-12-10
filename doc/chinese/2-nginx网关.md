@@ -48,7 +48,7 @@ server{
          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
          proxy_pass http://aiops:1003;
       }
-      location ~ /usercenter/ {
+      location ~ /sys/ {
          proxy_set_header Host $http_host;
          proxy_set_header X-Real-IP $remote_addr;
          proxy_set_header REMOTE-HOST $remote_addr;
@@ -65,17 +65,17 @@ server{
 
 #### 3、举例
 
-当我们在访问用户服务时候, http://127.0.0.1:8888/usercenter/v1/user/detail , 访问了外部端口8888，然后映射到nginx内部aiops网关8081上，然后location匹配到了/usercenter/ 然后转发到usercenter-api，由于usercenter-api我们在desc/api文件中定义了2组路由，一组需要jwt鉴权，一组不需要jwt鉴权，/usercenter/v1/user/detail 需要鉴权所以就会使用go-zero自带的jwt功能进行鉴权 ， desc/usercenter.api文件内容如下：
+当我们在访问用户服务时候, http://127.0.0.1:8888/sys/v1/user/detail , 访问了外部端口8888，然后映射到nginx内部aiops网关8081上，然后location匹配到了/sys/ 然后转发到sys-api，由于sys-api我们在desc/api文件中定义了2组路由，一组需要jwt鉴权，一组不需要jwt鉴权，/sys/v1/user/detail 需要鉴权所以就会使用go-zero自带的jwt功能进行鉴权 ， desc/sys.api文件内容如下：
 
 ```go
 .........
 //need login
 @server(
-	prefix: usercenter/v1
+	prefix: sys/v1
 	group: user
 	jwt: JwtAuth
 )
-service usercenter {
+service sys {
 
 	@doc "get user info"
 	@handler detail
@@ -87,7 +87,7 @@ service usercenter {
 
 
 
-由于在用户注册、登陆时候，我们在usercenter-rpc中生成的jwt token，我们是把userId放进去的，所以在这里 /usercenter/v1/user/detail 中，通过go-zero自带的jwt鉴权之后，我们可以在ctx中拿到userId，代码如下：
+由于在用户注册、登陆时候，我们在sys-rpc中生成的jwt token，我们是把userId放进去的，所以在这里 /sys/v1/user/detail 中，通过go-zero自带的jwt鉴权之后，我们可以在ctx中拿到userId，代码如下：
 
 ```go
 func (l *DetailLogic) Detail(req types.UserInfoReq) (*types.UserInfoResp, error) {
