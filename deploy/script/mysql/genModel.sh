@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # 使用方法：
-# ./genModel.sh usercenter user
-# ./genModel.sh usercenter user_auth
+# ./genModel.sh sys user
+# ./genModel.sh sys user_auth
 # 再将./genModel下的文件剪切到对应服务的model目录里面，记得改package
 
 
@@ -12,10 +12,10 @@ tables=$2
 modeldir=./genModel
 
 # 数据库配置
-host=127.0.0.1
-port=33069
+host=124.223.180.237
+port=3306
 dbname=aiops_$1
-username=root
+username=monitor
 passwd=PXDN93VRKUm8TeE7
 
 

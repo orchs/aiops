@@ -7,7 +7,7 @@ import (
 	"aiops/app/travel/cmd/api/internal/svc"
 	"aiops/app/travel/cmd/api/internal/types"
 	"aiops/app/travel/model"
-	"aiops/app/usercenter/cmd/rpc/usercenter"
+	"aiops/app/sys/cmd/rpc/sys"
 	"aiops/common/xerr"
 
 	"github.com/jinzhu/copier"
@@ -51,7 +51,7 @@ func (l *GoodBossLogic) GoodBoss(req types.GoodBossReq) (*types.GoodBossResp, er
 		}, func(item interface{}, writer mr.Writer, cancel func(error)) {
 			id := item.(int64)
 
-			userResp, err := l.svcCtx.UsercenterRpc.GetUserInfo(l.ctx, &usercenter.GetUserInfoReq{
+			userResp, err := l.svcCtx.SysRpc.GetUserInfo(l.ctx, &sys.GetUserInfoReq{
 				Id: id,
 			})
 			if err != nil {

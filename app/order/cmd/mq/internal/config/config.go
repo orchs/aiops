@@ -16,6 +16,6 @@ type Config struct {
 	PaymentUpdateStatusConf kq.KqConf
 
 	// rpc
-	OrderRpcConf      zrpc.RpcClientConf
-	UsercenterRpcConf zrpc.RpcClientConf
+	OrderRpcConf zrpc.RpcClientConf
+	SysRpcConf   zrpc.RpcClientConf
 }

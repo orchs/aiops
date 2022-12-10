@@ -14,6 +14,6 @@ type Config struct {
 	}
 	Cache cache.CacheConf
 
-	UsercenterRpcConf zrpc.RpcClientConf
-	TravelRpcConf     zrpc.RpcClientConf
+	SysRpcConf    zrpc.RpcClientConf
+	TravelRpcConf zrpc.RpcClientConf
 }

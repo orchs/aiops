@@ -4,7 +4,7 @@ import (
 	"aiops/app/travel/cmd/api/internal/config"
 	"aiops/app/travel/cmd/rpc/travel"
 	"aiops/app/travel/model"
-	"aiops/app/usercenter/cmd/rpc/usercenter"
+	"aiops/app/sys/cmd/rpc/sys"
 
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -15,8 +15,8 @@ type ServiceContext struct {
 	Config config.Config
 
 	//rpc
-	UsercenterRpc usercenter.Usercenter
-	TravelRpc     travel.Travel
+	SysRpc    sys.Sys
+	TravelRpc travel.Travel
 
 	//model
 	HomestayModel         model.HomestayModel
@@ -32,8 +32,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config: c,
 
-		UsercenterRpc: usercenter.NewUsercenter(zrpc.MustNewClient(c.UsercenterRpcConf)),
-		TravelRpc:     travel.NewTravel(zrpc.MustNewClient(c.TravelRpcConf)),
+		SysRpc:    sys.NewSys(zrpc.MustNewClient(c.SysRpcConf)),
+		TravelRpc: travel.NewTravel(zrpc.MustNewClient(c.TravelRpcConf)),
 
 		HomestayModel:         model.NewHomestayModel(sqlConn, c.Cache),
 		HomestayActivityModel: model.NewHomestayActivityModel(sqlConn, c.Cache),

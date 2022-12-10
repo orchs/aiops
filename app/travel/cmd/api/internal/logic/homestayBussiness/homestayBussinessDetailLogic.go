@@ -5,8 +5,8 @@ import (
 
 	"aiops/app/travel/cmd/api/internal/svc"
 	"aiops/app/travel/cmd/api/internal/types"
-	"aiops/app/usercenter/cmd/rpc/usercenter"
-	"aiops/app/usercenter/model"
+	"aiops/app/sys/cmd/rpc/sys"
+	"aiops/app/sys/model"
 	"aiops/common/xerr"
 
 	"github.com/jinzhu/copier"
@@ -38,7 +38,7 @@ func (l *HomestayBussinessDetailLogic) HomestayBussinessDetail(req types.Homesta
 	var typeHomestayBusinessBoss types.HomestayBusinessBoss
 	if homestayBusiness != nil {
 
-		userResp, err := l.svcCtx.UsercenterRpc.GetUserInfo(l.ctx, &usercenter.GetUserInfoReq{
+		userResp, err := l.svcCtx.SysRpc.GetUserInfo(l.ctx, &sys.GetUserInfoReq{
 			Id: homestayBusiness.UserId,
 		})
 		if err != nil {

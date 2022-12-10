@@ -6,7 +6,7 @@ import (
 	"github.com/zeromicro/go-zero/zrpc"
 	"aiops/app/mqueue/cmd/job/internal/config"
 	"aiops/app/order/cmd/rpc/order"
-	"aiops/app/usercenter/cmd/rpc/usercenter"
+	"aiops/app/sys/cmd/rpc/sys"
 )
 
 type ServiceContext struct {
@@ -14,17 +14,17 @@ type ServiceContext struct {
 	AsynqServer *asynq.Server
 	MiniProgram *miniprogram.MiniProgram
 
-	OrderRpc      order.Order
-	UsercenterRpc usercenter.Usercenter
+	OrderRpc order.Order
+	SysRpc   sys.Sys
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
-		Config:        c,
-		AsynqServer:   newAsynqServer(c),
-		MiniProgram:   newMiniprogramClient(c),
-		OrderRpc:      order.NewOrder(zrpc.MustNewClient(c.OrderRpcConf)),
-		UsercenterRpc: usercenter.NewUsercenter(zrpc.MustNewClient(c.UsercenterRpcConf)),
+		Config:      c,
+		AsynqServer: newAsynqServer(c),
+		MiniProgram: newMiniprogramClient(c),
+		OrderRpc:    order.NewOrder(zrpc.MustNewClient(c.OrderRpcConf)),
+		SysRpc:      sys.NewSys(zrpc.MustNewClient(c.SysRpcConf)),
 	}
 }
 

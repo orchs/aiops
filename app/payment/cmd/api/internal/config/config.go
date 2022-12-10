@@ -13,7 +13,7 @@ type Config struct {
 	WxMiniConf WxMiniConf
 	WxPayConf  WxPayConf
 
-	PaymentRpcConf    zrpc.RpcClientConf
-	OrderRpcConf      zrpc.RpcClientConf
-	UsercenterRpcConf zrpc.RpcClientConf
+	PaymentRpcConf zrpc.RpcClientConf
+	OrderRpcConf   zrpc.RpcClientConf
+	SysRpcConf     zrpc.RpcClientConf
 }

@@ -58,19 +58,19 @@ scrape_configs:
           job: travel-rpc
           app: travel-rpc
           env: dev
-  - job_name: 'usercenter-api'
+  - job_name: 'sys-api'
     static_configs:
       - targets: ['aiops:4008']
         labels:
-          job: usercenter-api
-          app: usercenter-api
+          job: sys-api
+          app: sys-api
           env: dev
-  - job_name: 'usercenter-rpc'
+  - job_name: 'sys-rpc'
     static_configs:
       - targets: ['aiops:4009']
         labels:
-          job: usercenter-rpc
-          app: usercenter-rpc
+          job: sys-rpc
+          app: sys-rpc
           env: dev
   - job_name: 'mqueue-job'
     static_configs:

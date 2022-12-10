@@ -8,8 +8,8 @@ import (
 	"aiops/app/payment/cmd/api/internal/types"
 	"aiops/app/payment/cmd/rpc/payment"
 	"aiops/app/payment/model"
-	"aiops/app/usercenter/cmd/rpc/usercenter"
-	usercenterModel "aiops/app/usercenter/model"
+	"aiops/app/sys/cmd/rpc/sys"
+	sysModel "aiops/app/sys/model"
 	"aiops/common/ctxdata"
 	"aiops/common/xerr"
 
@@ -75,9 +75,9 @@ func (l *ThirdPaymentwxPayLogic) createWxPrePayOrder(serviceType, orderSn string
 
 	// 1、get user openId
 	userId := ctxdata.GetUidFromCtx(l.ctx)
-	userResp, err := l.svcCtx.UsercenterRpc.GetUserAuthByUserId(l.ctx, &usercenter.GetUserAuthByUserIdReq{
+	userResp, err := l.svcCtx.SysRpc.GetUserAuthByUserId(l.ctx, &sys.GetUserAuthByUserIdReq{
 		UserId:   userId,
-		AuthType: usercenterModel.UserAuthTypeSmallWX,
+		AuthType: sysModel.UserAuthTypeSmallWX,
 	})
 	if err != nil {
 		return nil, errors.Wrapf(ErrWxPayError, "Get user wechat openid err : %v , userId: %d , orderSn:%s", err, userId, orderSn)

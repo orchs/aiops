@@ -1,0 +1,51 @@
+syntax = "v1"
+
+info(
+	title: "用户中心服务"
+	desc: "用户中心服务"
+	author: "****"
+	email: "****@***.com"
+	version: "v1"
+)
+
+import (
+	"user/user.api"
+)
+
+//============================> sys v1 <============================
+//no need login
+@server(
+	prefix: sys/v1
+	group: user
+)
+service sys {
+	
+	@doc "register"
+	@handler register
+	post /user/register (RegisterReq) returns (RegisterResp)
+	
+	@doc "login"
+	@handler login
+	post /user/login (LoginReq) returns (LoginResp)
+}
+
+//need login
+@server(
+	prefix: sys/v1
+	group: user
+	jwt: JwtAuth
+)
+service sys {
+	
+	@doc "get user info"
+	@handler infos
+	get /users/:id returns (UserInfoResp)
+	
+	@doc "edit user info"
+	@handler edit
+	put /users/:id (UserInfoReq) returns (UserInfoResp)
+	
+	@doc "wechat mini auth"
+	@handler wxMiniAuth
+	post /user/wxMiniAuth (WXMiniAuthReq) returns (WXMiniAuthResp)
+}

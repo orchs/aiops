@@ -1,6 +1,15 @@
 package logic
 
 import (
+	"aiops/app/mqueue/cmd/job/internal/svc"
+	"aiops/app/mqueue/cmd/job/jobtype"
+	"aiops/app/order/model"
+	"aiops/app/sys/cmd/rpc/sys"
+	sysModel "aiops/app/sys/model"
+	"aiops/common/globalkey"
+	"aiops/common/tool"
+	"aiops/common/wxminisub"
+	"aiops/common/xerr"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -10,15 +19,6 @@ import (
 	"github.com/silenceper/wechat/v2/miniprogram/subscribe"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
-	"aiops/app/mqueue/cmd/job/internal/svc"
-	"aiops/app/mqueue/cmd/job/jobtype"
-	"aiops/app/order/model"
-	"aiops/app/usercenter/cmd/rpc/usercenter"
-	usercenterModel "aiops/app/usercenter/model"
-	"aiops/common/globalkey"
-	"aiops/common/tool"
-	"aiops/common/wxminisub"
-	"aiops/common/xerr"
 	"time"
 )
 
@@ -43,17 +43,17 @@ func (l *PaySuccessNotifyUserHandler) ProcessTask(ctx context.Context, t *asynq.
 	}
 
 	// 1、get user openid
-	usercenterResp, err := l.svcCtx.UsercenterRpc.GetUserAuthByUserId(ctx, &usercenter.GetUserAuthByUserIdReq{
+	sysResp, err := l.svcCtx.SysRpc.GetUserAuthByUserId(ctx, &sys.GetUserAuthByUserIdReq{
 		UserId:   p.Order.UserId,
-		AuthType: usercenterModel.UserAuthTypeSmallWX,
+		AuthType: sysModel.UserAuthTypeSmallWX,
 	})
 	if err != nil {
 		return errors.Wrapf(ErrPaySuccessNotifyFail, "pay success notify user fail, rpc get user err:%v , orderSn:%s , userId:%d", err, p.Order.Sn, p.Order.UserId)
 	}
-	if usercenterResp.UserAuth == nil || len(usercenterResp.UserAuth.AuthKey) == 0 {
+	if sysResp.UserAuth == nil || len(sysResp.UserAuth.AuthKey) == 0 {
 		return errors.Wrapf(ErrPaySuccessNotifyFail, "pay success notify user , user no exists err:%v , orderSn:%s , userId:%d", err, p.Order.Sn, p.Order.UserId)
 	}
-	openId := usercenterResp.UserAuth.AuthKey
+	openId := sysResp.UserAuth.AuthKey
 
 	// 2、send notify
 	msgs := l.getData(ctx, p.Order, openId)
