@@ -9,7 +9,7 @@
 | order        | 1001                   | 2001                   | mq-3001                  |
 | payment      | 1002                   | 2002                   |                          |
 | travel       | 1003                   | 2003                   |                          |
-| usercenter   | 1004                   | 2004                   |                          |
+| sys   | 1004                   | 2004                   |                          |
 | mqueue       | -                      | -                      | job-3002、schedule-3003  |
 
 
@@ -27,8 +27,8 @@
 | payment-rpc      | 4005            |
 | travel-api       | 4006            |
 | travel-rpc       | 4007            |
-| usercenter-api   | 4008            |
-| usercenter-rpc   | 4009            |
+| sys-api   | 4008            |
+| sys-rpc   | 4009            |
 | mqueue-job       | 4010            |
 | mqueue-scheduler | 4011            |
 
